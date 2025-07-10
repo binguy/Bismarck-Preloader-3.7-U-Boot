@@ -1,0 +1,1 @@
+platform/lightsodium/sha512.c

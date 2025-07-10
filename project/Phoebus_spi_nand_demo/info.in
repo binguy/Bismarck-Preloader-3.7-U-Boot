@@ -1,0 +1,22 @@
+template_name := Phoebus_spi_nand
+name_of_project := \"Phoebus\"
+
+## Assign the compile toolkit
+PREFERRED_TK_PREFIX:=/share/rlx/msdk-4.8.5-1004k-EB-3.18-u0.9.33-m32t-150818/bin/msdk-linux-
+
+## Extended memory use information
+OTTO_FLASH_SPI_NAND:= 1
+NSU_USING_SYMBOL_TABLE_FUNCTION :=
+
+CONFIG_SPI_NAND_FLASH_INIT_FIRST := 1
+
+# SPI NAND driver relative policy decision
+spi_nand_path := src/platform/$(platform_name)/spi_nand
+spi_nand_path_prefix := $(spi_nand_path)/spi_nand_
+SPI_NAND_VENDOR += ato.c dosilicon.c etron.c fmsh.c gd.c heyangtek.c longsys.c mxic.c toshiba.c winbond.c xtx.c 
+EXTRA_C_SRC += $(addprefix $(spi_nand_path_prefix), $(SPI_NAND_VENDOR))
+
+FILTER_OUT_OBJS :=
+MIPS16_OBJS += ab_tlzma.o
+
+

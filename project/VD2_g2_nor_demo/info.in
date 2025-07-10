@@ -1,0 +1,12 @@
+template_name := VD2_g2_nor
+
+
+name_of_project := \"VD2\"
+
+
+
+PREFERRED_TK_PREFIX:=/share/rlx/msdk-4.8.5-1004k-EB-3.18-u0.9.33-m32t-150818/bin/msdk-linux-
+
+OTTO_FLASH_NOR := 
+FILTER_OUT_OBJS := 
+mirror := $(template_name)

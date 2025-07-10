@@ -1,0 +1,1 @@
+platform/bus_pri/bpsa_setup.c

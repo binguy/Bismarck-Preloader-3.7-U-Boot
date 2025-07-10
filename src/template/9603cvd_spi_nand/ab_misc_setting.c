@@ -1,0 +1,1 @@
+platform/misc/misc_setting.c

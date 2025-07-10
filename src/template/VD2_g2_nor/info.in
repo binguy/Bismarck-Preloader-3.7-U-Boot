@@ -1,0 +1,44 @@
+platform_name      := VD2_g2
+
+OTTO_SRAM_START    := 0x9f000000
+OTTO_LMA_BASE      := 0x9fc00000
+OTTO_ENTRY         := $(OTTO_LMA_BASE)
+
+#OTTO_SRAM_SIZE     := 0x8000
+#OTTO_SRAM_MASK     := 0x7fff
+#CACHELINE_SIZE     := 0x20
+#CACHE_SIZE         := 0x8000
+
+OTTO_ENTRY_SYMB    := plr_S_entry
+TARGET_OUT         := release/plr.out
+
+OTTO_PLR_STACK_DEF := OTTO_SRAM_START + OTTO_SRAM_SIZE - 8
+PRELOADER_OUT := release/plr.out
+
+EXPORT_SYMB_PROTO_PRINTF := 1
+EXPORT_SYMB_CACHE_OP     := 1
+
+UART_BASE_ADDR := 0xb8002000
+OTTO_DRAM_GEN  := 2
+
+AFTER_PRELOADER_IMG  := $(CURDIR)/uboot_v2020.01/u-boot.pimg
+AFTER_PRELOADER_IMGQ := \"$(AFTER_PRELOADER_IMG)\"
+
+## Don't double quote LIBMEMCTL, it makes wildcard returns nothing.
+LIBMEMCTL := ./src/template/VD2_g2_nor/libmemctl.a
+LIBMEMCTL_MEMBERS := ./release/objs/ab_dram_setup.o ./release/objs/ab_boot0412_integration.o
+LIBMEMCTL_MEMBERS += ./release/objs/ab_memctl_8685.o ./release/objs/ab_efuse.o
+ifeq ($(wildcard $(LIBMEMCTL)),$(LIBMEMCTL))
+  TMPL_LIB := -lmemctl
+else
+  TMPL_LIB :=
+endif
+
+ifeq ($(wildcard ./src/template/VD2_g2_nor/boot0412),./src/template/VD2_g2_nor/boot0412)
+  ## Keep that assignment symbol like this, otherwise $(AR) expansion may fail
+  GEN_LIBMEMCTL = echo Generating $(LIBMEMCTL); \
+                  $(AR) rcuv $(LIBMEMCTL) $(LIBMEMCTL_MEMBERS); \
+                  $(OC) -g $(LIBMEMCTL)
+else
+  GEN_LIBMEMCTL := echo Skipping $(LIBMEMCTL) generation
+endif

@@ -1,0 +1,1 @@
+platform/reset_info.c

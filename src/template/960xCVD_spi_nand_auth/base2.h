@@ -1,0 +1,1 @@
+platform/lightsodium/base2.h

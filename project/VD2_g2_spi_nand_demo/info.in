@@ -1,0 +1,15 @@
+template_name := VD2_g2_spi_nand
+OTTO_FLASH_SPI_NAND := 1
+
+FILTER_OUT_OBJS := 
+
+## spi nand flash relative definition and macro
+CONFIG_SPI_NAND_FLASH_INIT_FIRST := 1
+
+spi_nand_path_prefix := src/platform/$(platform_name)/spi_nand/spi_nand_
+SPI_NAND_VENDOR += dosilicon.c esmt.c etron.c fmsh.c gd.c mxic.c winbond.c xtx.c
+EXTRA_C_SRC = $(addprefix $(spi_nand_path_prefix), $(SPI_NAND_VENDOR))
+
+NSU_USING_SYMBOL_TABLE_FUNCTION :=
+
+PREFERRED_TK_PREFIX:=/share/rlx/msdk-4.8.5-1004k-EB-3.18-u0.9.33-m32t-150818/bin/msdk-linux-

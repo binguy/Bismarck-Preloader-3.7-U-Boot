@@ -1,0 +1,1 @@
+platform/lightsodium/crypto_sign.c

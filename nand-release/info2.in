@@ -1,0 +1,55 @@
+# this is a tempoary file
+# from release/project_name
+project_name := Phoebus_spi_nand_demo
+# from src/template/Phoebus_spi_nand/info.in
+## PLATFORM
+platform_name := Phoebus
+OTTO_ENTRY := $(OTTO_SPI_NAND_PLR_ENTRY)
+OTTO_LMA_BASE := 0
+
+## LDS
+OTTO_LDS := "./src/lds/spi_nand_with_lplr.lds"
+OTTO_STARTUP := "./src/template/Phoebus_spi_nand/startup_nand_with_lplr.S"
+
+## MMU Setting
+MMU_PHY_SIZE := $(OTTO_SRAM_SIZE)
+MMU_VM_SIZE := 0x40000
+MMU_PHY_BASE_ADDR := $(OTTO_SRAM_START)
+MMU_CHECK_INETRNAL_ERROR := 1
+
+## gpopt
+USE_CC_GPOPT := 1
+CC_GPOPT := -mgpopt -mlocal-sdata -mextern-sdata -G 4
+
+# Recycle section check
+IS_RECYCLE_SECTION_EXIST := 
+
+# SPI NAND driver relative policy decision
+APRO_NSU_DRIVER_PATCH := 
+
+## u-boot/Bismarck version info
+FOR_UBOOT_2020 := 1
+ 
+# from project/Phoebus_spi_nand_demo/info.in
+template_name := Phoebus_spi_nand
+name_of_project := \"Phoebus\"
+
+## Assign the compile toolkit
+PREFERRED_TK_PREFIX:=/share/rlx/msdk-4.8.5-1004k-EB-3.18-u0.9.33-m32t-150818/bin/msdk-linux-
+
+## Extended memory use information
+OTTO_FLASH_SPI_NAND:= 1
+NSU_USING_SYMBOL_TABLE_FUNCTION :=
+
+CONFIG_SPI_NAND_FLASH_INIT_FIRST := 1
+
+# SPI NAND driver relative policy decision
+spi_nand_path := src/platform/$(platform_name)/spi_nand
+spi_nand_path_prefix := $(spi_nand_path)/spi_nand_
+SPI_NAND_VENDOR += ato.c dosilicon.c etron.c fmsh.c gd.c heyangtek.c longsys.c mxic.c toshiba.c winbond.c xtx.c 
+EXTRA_C_SRC += $(addprefix $(spi_nand_path_prefix), $(SPI_NAND_VENDOR))
+
+FILTER_OUT_OBJS :=
+MIPS16_OBJS += ab_tlzma.o
+
+

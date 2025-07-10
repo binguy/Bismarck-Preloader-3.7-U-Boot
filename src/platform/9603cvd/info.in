@@ -1,0 +1,74 @@
+## CPU
+OTTO_KSEG2_BASE := 0xC0000000
+CACHELINE_SIZE  := 0x20
+ICACHE_SIZE     := 0x10000
+DCACHE_SIZE     := 0x08000
+L2CACHE_SIZE    := 0
+
+## NOR Flash
+OTTO_SPI_NOR_START := 0x94000000
+
+## SRAM
+OTTO_SRAM_START := 0x9f000000
+OTTO_SRAM_SIZE  := 0x8000
+OTTO_SRAM_MASK  := ($(OTTO_SRAM_SIZE)-1)
+
+## TLB
+TLB_PAGE_SHIFT := 12
+TLB_PAGE_SIZE  := (1 << $(TLB_PAGE_SHIFT))
+TLB_PAGE_MASK  := ($(TLB_PAGE_SIZE) - 1)
+TLB_NUM_TLB_ENTRY := 32
+TLB_NUM_TLB_MASK  := ($(TLB_NUM_TLB_ENTRY) - 1)
+TLB_ENTRYHI_MASK  := 0xFFFFE000
+
+## LPLR INFO
+OTTO_LPLR_ENTRY := 0x9fc00000
+OTTO_LPLR_SIZE  := 0x8000
+OTTO_LPLR_CHECKSUM_OFFSET := 0x1c
+OTTO_SPI_NAND_PLR_ENTRY := $(OTTO_SRAM_START)
+OTTO_SPI_NOR_PLR_ENTRY := 0x9fc00000
+OTTO_HEADER_OFFSET := 0x20
+
+## UART
+UART_BASE_ADDR := 0xb8002000
+
+## SPI NAND
+MAX_PAGE_BUF_SIZE := 4096
+MAX_OOB_BUF_SIZE := 256
+MAX_ECC_BUF_SIZE := 32
+MAX_BIG_BUFFER_SIZE := $(MAX_PAGE_BUF_SIZE)+$(MAX_OOB_BUF_SIZE)+$(MAX_ECC_BUF_SIZE)
+MAX_BYTE_PER_DMA  := 0x10000
+MAX_PLR_FIRST_LOAD_PAGE := 32
+MAX_PLR_FIRST_LOAD_PAGE_NUM := 65536
+
+## Stack
+MIN_STACK_SIZE   := 0xC00
+
+## CPU dep. flag
+CC_PLAT_FLAGS := -mips32r2 -mtune=1004kc
+AS_PLAT_FLAGS := -mips32r2 -mtune=1004kc
+
+OTTO_ISR_ENTRY_OFFSET := 0x380
+
+# ********************************
+# for ./ext/9603cvd features
+# ********************************
+
+ifneq ('$(project_name)','9603cvd_lplr_demo')
+
+platform_dir := src/platform/$(platform_name)
+PLUGIN_DIR_autok := $(platform_dir)/autok
+
+# It seems info.in is included twice. To prevent duplicate of INC_DIR and EXTRA_C_SRC,
+# make sure to use them with `:=' and not `+='
+INC_DIR := -I $(PLUGIN_DIR_autok)
+EXTRA_C_SRC := $(shell find -L $(PLUGIN_DIR_autok) -name '*.c' 2> /dev/null)
+FILENAME_W_SPC := $(shell find -L $(PLUGIN_DIR_autok) -name '* *.c' 2> /dev/null)
+
+# Prevent building file having spaces in its name, otherwise it breaks build system.
+# The dummy_var is needed to generate receipts in release/Makefile.info for release/info.h.
+ifneq ('$(FILENAME_W_SPC)','')
+	dummy_var := $(error EE: space in file name: '$(FILENAME_W_SPC)')
+endif
+
+endif #ifneq ('$(project_name)','9603cvd_lplr_demo')

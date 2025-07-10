@@ -1,0 +1,4 @@
+# this file is generated automatcally, don't edit it.
+include src/platform/Phoebus/info.in
+include src/template/Phoebus_nor/info.in
+include project/Phoebus_nor_demo/info.in

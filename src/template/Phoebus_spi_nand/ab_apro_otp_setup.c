@@ -1,0 +1,1 @@
+platform/apro/otp_setup.c

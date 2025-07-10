@@ -1,0 +1,32 @@
+/*
+ * U-Boot uImage source file with multiple kernels, ramdisks and FDT blobs
+ */
+
+/dts-v1/;
+
+/ {
+	description = "OTTO";
+	#address-cells = <1>;
+
+	images {
+		preloader {
+			description = "plr";
+			type = "standalone";
+			arch = "mips";
+			data = /incbin/("../../../release/plr.img");
+			compression = "none";
+			load = <0x9f000000>;
+			entry = <0x9f000000>;
+		};
+		uboot {
+			description = "uboot";
+			type = "standalone";
+			arch = "mips";
+			data = /incbin/("../../../uboot_v2020.01/u-boot.pimg");
+			compression = "lzma";
+			sign = /incbin/("../../../release/signature");
+			load = <0x80000000>;
+			entry = <0x80000000>;
+		};
+	};
+};

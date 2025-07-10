@@ -1,0 +1,46 @@
+#
+# This file is generated automatically; please don't edit it. (Mon Oct  9 17:15:09 CST 2023)
+#
+release/objs/ab_cli_access.d : project/Phoebus_nor_demo/ab_cli_access.c
+release/objs/ab_cli_cg.d : project/Phoebus_nor_demo/ab_cli_cg.c
+release/objs/ab_cli_dram_access.d : project/Phoebus_nor_demo/ab_cli_dram_access.c
+release/objs/ab_cli_entry.d : project/Phoebus_nor_demo/ab_cli_entry.c
+release/objs/ab_cli_mt.d : project/Phoebus_nor_demo/ab_cli_mt.c
+release/objs/ab_cli_parser.d : project/Phoebus_nor_demo/ab_cli_parser.c
+release/objs/ab_cli_util.d : project/Phoebus_nor_demo/ab_cli_util.c
+release/objs/ab_console_auto_set.d : project/Phoebus_nor_demo/ab_console_auto_set.c
+release/objs/ab_mt_ram_test.d : project/Phoebus_nor_demo/ab_mt_ram_test.c
+release/objs/parameters.d : project/Phoebus_nor_demo/parameters.c
+release/objs/ab_reset_info.d : src/template/Phoebus_nor/ab_reset_info.c
+release/objs/ab_9603cvd_cg.d : src/template/Phoebus_nor/ab_9603cvd_cg.c
+release/objs/ab_proto_printf.d : src/template/Phoebus_nor/ab_proto_printf.c
+release/objs/ab_osc_init.d : src/template/Phoebus_nor/ab_osc_init.c
+release/objs/ab_tlzma.d : src/template/Phoebus_nor/ab_tlzma.c
+release/objs/ab_cg.d : src/template/Phoebus_nor/ab_cg.c
+release/objs/ab_init.d : src/template/Phoebus_nor/ab_init.c
+release/objs/ab_bus_timeout_mon.d : src/template/Phoebus_nor/ab_bus_timeout_mon.c
+release/objs/ab_apro_misc_setting.d : src/template/Phoebus_nor/ab_apro_misc_setting.c
+release/objs/ab_dram_setup.d : src/template/Phoebus_nor/ab_dram_setup.c
+release/objs/ab_efuse_setup.d : src/template/Phoebus_nor/ab_efuse_setup.c
+release/objs/ab_nor_spif_core.d : src/template/Phoebus_nor/ab_nor_spif_core.c
+release/objs/ab_sram_setup.d : src/template/Phoebus_nor/ab_sram_setup.c
+release/objs/ab_9603cvd_misc_setting.d : src/template/Phoebus_nor/ab_9603cvd_misc_setting.c
+release/objs/ab_snof_div_ctrl.d : src/template/Phoebus_nor/ab_snof_div_ctrl.c
+release/objs/ab_nor_spi_uboot_bringup.d : src/template/Phoebus_nor/ab_nor_spi_uboot_bringup.c
+release/objs/ab_apro_otp_setup.d : src/template/Phoebus_nor/ab_apro_otp_setup.c
+release/objs/ab_apro_cg.d : src/template/Phoebus_nor/ab_apro_cg.c
+release/objs/ab_uart.d : src/template/Phoebus_nor/ab_uart.c
+release/objs/ab_string.d : src/template/Phoebus_nor/ab_string.c
+release/objs/ab_apro_cg_gen2.d : src/template/Phoebus_nor/ab_apro_cg_gen2.c
+release/objs/ab_bpsa_setup.d : src/template/Phoebus_nor/ab_bpsa_setup.c
+release/objs/ab_timer.d : src/template/Phoebus_nor/ab_timer.c
+release/objs/ab_apro_efuse_setup.d : src/template/Phoebus_nor/ab_apro_efuse_setup.c
+release/objs/ab_LzmaDec.d : src/template/Phoebus_nor/ab_LzmaDec.c
+release/objs/ab_compatibility.d : src/template/Phoebus_nor/ab_compatibility.c
+release/objs/ab_ver_info.d : src/template/Phoebus_nor/ab_ver_info.c
+release/objs/ab_banner.d : src/template/Phoebus_nor/ab_banner.c
+release/objs/ab_misc_setting.d : src/template/Phoebus_nor/ab_misc_setting.c
+release/objs/ab_9603cvd_efuse_setup.d : src/template/Phoebus_nor/ab_9603cvd_efuse_setup.c
+release/objs/ab_plr_c_entry.d : src/template/Phoebus_nor/ab_plr_c_entry.c
+release/objs/startup.d : src/template/Phoebus_nor/startup.S
+release/objs/ab_after_preloader.d : src/template/Phoebus_nor/ab_after_preloader.S

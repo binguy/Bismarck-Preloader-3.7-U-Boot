@@ -1,0 +1,27 @@
+include src/platform/Phoebus/info.in
+include release/info2.in
+src/platform/Phoebus/info.in release/info2.in release/Makefile.info: ;
+release/info.h:
+	@echo "#define project_name $(project_name)" >> release/info.h
+	@echo "#define platform_name $(platform_name)" >> release/info.h
+	@echo "#define OTTO_LMA_BASE $(OTTO_LMA_BASE)" >> release/info.h
+	@echo "#define OTTO_ENTRY $(OTTO_ENTRY)" >> release/info.h
+	@echo "#define OTTO_ENTRY_SYMB $(OTTO_ENTRY_SYMB)" >> release/info.h
+	@echo "#define OTTO_PLR_STACK_DEF $(OTTO_PLR_STACK_DEF)" >> release/info.h
+	@echo "#define MIN_STACK_SIZE $(MIN_STACK_SIZE)" >> release/info.h
+	@echo "#define TARGET_OUT $(TARGET_OUT)" >> release/info.h
+	@echo "#define EXPORT_SYMB_PROTO_PRINTF $(EXPORT_SYMB_PROTO_PRINTF)" >> release/info.h
+	@echo "#define EXPORT_SYMB_CACHE_OP $(EXPORT_SYMB_CACHE_OP)" >> release/info.h
+	@echo "#define AFTER_PRELOADER_IMG $(AFTER_PRELOADER_IMG)" >> release/info.h
+	@echo "#define AFTER_PRELOADER_IMG $(AFTER_PRELOADER_IMG)" >> release/info.h
+	@echo "#define AFTER_PRELOADER_IMGQ $(AFTER_PRELOADER_IMGQ)" >> release/info.h
+	@echo "#define SRAM_SIZE_SEG0 $(SRAM_SIZE_SEG0)" >> release/info.h
+	@echo "#define SRAM_SIZE_SEG1 $(SRAM_SIZE_SEG1)" >> release/info.h
+	@echo "#define SRAM_SIZE_SEG2 $(SRAM_SIZE_SEG2)" >> release/info.h
+	@echo "#define SRAM_SIZE_SEG3 $(SRAM_SIZE_SEG3)" >> release/info.h
+	@echo "#define FOR_UBOOT_2020 $(FOR_UBOOT_2020)" >> release/info.h
+	@echo "#define template_name $(template_name)" >> release/info.h
+	@echo "#define name_of_project $(name_of_project)" >> release/info.h
+	@echo "#define PREFERRED_TK_PREFIX $(PREFERRED_TK_PREFIX)" >> release/info.h
+	@echo "#define OTTO_FLASH_NOR $(OTTO_FLASH_NOR)" >> release/info.h
+	@echo "#define FILTER_OUT_OBJS $(FILTER_OUT_OBJS)" >> release/info.h

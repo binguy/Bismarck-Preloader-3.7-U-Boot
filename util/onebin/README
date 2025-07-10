@@ -1,0 +1,219 @@
+s is a images merging tool with bch6 encoder to generate one rom file for mass production.
+
+This tool can merge up to 12 files (loader is required) into one image.
+Then this image can be programmed into NOR/NAND flash by using burner/flash programmer. (NOTE: Disabling ECC check and skip bad block)
+
+Before using this tool, please keep in mind you should have good images (loader.img/uImage/rootfs) on hand, and you have already used this images with upb/upk/upr commands in bootloader to update firmware.
+If the system bootup OK after update, you can use “onebin” to merge these files into one image for other board to use.
+
+
+
+Lasted Version (v2.2)
+
+--------------------------
+
+onebin_v2.2.tar.bz2
+
+
+
+Update (2020-01-30)
+--------------------------
+1. The upgrade version: onebin Tool v2.2
+
+2. Fix execution error for 4K page nand.
+
+
+
+Update (2017-03-10)
+--------------------------
+1. The upgrade version: onebin Tool v2.1
+
+2. The output image will be block alignment (0x20000) for NAND and sector alignment (0x1000) for NOR.
+
+
+
+Update (2017-01-18)
+
+--------------------------
+
+1. The upgrade version: onebin Tool v2.0
+
+2. The max. number of input files is from 5 to 12. (easy to extend)
+
+3. Sort the file address in command option from user
+
+4. Do more command option check
+
+    4.1 loader file is requirement and must be merged in address 0 of output file.
+
+    4.2 The File Address should be block alignment
+
+5. Command is compatible with old version
+
+
+
+Status (2017-01-30)
+--------------------------
+1. Support Parallel NAND
+
+2. Support SPI NAND (512/2K/4K page)
+
+3. Support NOR 
+
+
+
+How to Use
+
+--------------------------
+
+1. ./onebin -ft [nor|nand] -npt [small|large] -csz <n> -ppb <n> -bso <n> -bdo <n> -l <file name> -f <file name> <address> -o <file name>
+
+-ft [--flash-type] [nor|nand]: flash type
+-npt [--nand-page-type] [small|large]: small (512B data + 16B Spare Area) and large (2048B/4096B data + 64B/128B Spare Area)
+-csz [--chunk-size] <n>: data chunk size in byte, default value is 2048 (4096 for 4K page nand)
+-ppb [--chunk-per-block] <n>: chunks per block, default value is 64
+-bso [--bbi-swap-offset] <n>: swap offset for bbi
+-bdo [--bbi-dma-offset] <n>: dma offset for bbi
+-l <file name>: loader file name, will be appened at address 0
+-f <file name> <address>: file name and address
+-o <file name>: Target Output File
+
+Notice: -bso and -bdo should be defined together, if neither -bso nor -bdo is defined, no swap will be performanced.
+
+
+
+2. Assigne flash type as nor or nand
+
+===> for -ft
+
+
+
+3. If flash type is nand, nand page type should be assigned as small or large
+
+===> for -npt
+
+
+
+4. 4. Prepare your bin files (one of files is Loader Image, and the number of files is upto 12)
+
+Example:
+
+A. lodaer.img                ===> for -l
+
+B. uImage                    ===> for -f
+
+C. rootfs                       ===> for -f
+
+D. uImage                    ===> for -f
+
+E. rootfs                       ===> for -f
+
+
+
+5. Check File (k0, r0, k1, r1) Address in MTD partitions from Kernel Booting Message. (Use u-boot command to program the uImage and rootfs then reset)
+
+Example:
+
+CN2 Luna SDK > onebin tool for Whole-Image and program to NOR and NAND Flash > 02.jpg
+
+From above message, four needed address will be found
+
+k0: c00000                   ===> for -f
+r0: 1100000                 ===> for -f
+k1: 5100000                 ===> for -f
+r1: 5600000                  ===> for -f
+
+
+
+6. Check NAND info under shell
+
+Example:
+# cat /proc/nandinfo
+nand_size:67108864
+chip_size:67108864
+block_size:131072
+chunk_size:2048
+real page_size:2048
+oob_size:64
+ppb:64
+
+chunk_size is 2048       ===> for --chunk-size (2048 is default value)
+ppb is 64                      ===> for -ppb (64 is default value)
+
+
+
+7. In 9607 NAND, swap is needed, assign bso and bdo as followed
+
+bso is 23                      ===> for -bso
+
+bdo is 2000                  ===> for -bdo
+
+
+
+8. Assign Target onebin file path and name
+
+Example: onebin.img    ===> for -o
+
+
+
+9. Assign File Path and Address in the Command
+
+./onebin -ft nand -npt small -bso 23 -bdo 2000 -l loader.img -f uImage c00000 -f rootfs 1100000 -f uImage 5100000 -f rootfs 5600000 -o onebin.img
+                                                                             ^^^^^^^^^^   ^^^^^^^ ^^^^^^     ^^^^^ ^^^^^^^       ^^^^^^^ ^^^^^^^^    ^^^^^ ^^^^^^^        ^^^^^^^^^^
+
+Example Command
+--------------------------
+
+1. Generate ONE Bin for 9607 with Parallel NAND (Dual kernel/rootfs)
+
+./onebin -ft nand -npt small -bso 23 -bdo 2000 -l loader.img -f uImage c00000 -f rootfs 1400000 -f uImage 2560000 -f rootfs 2d60000 -o onebin.img
+
+
+
+2. Generate ONE Bin for 9602C with SPI NAND (Dual kernel/rootfs)
+
+./onebin -ft nand -npt large -l encode_uboot.img -f uImage 1900000 -f rootfs 2100000 -f uImage 4b40000 -f rootfs 5340000 -o onebin.img
+
+
+
+3.Generate ONE Bin for 9601B with NOR (Dual kernel/rootfs)
+
+./onebin -ft nor -l plr.img.9601b_multicast_bis -f uImage 80000 -f rootfs 1e0000 -f uImage 440000 -f rootfs 5a0000 -o onebin.img
+
+
+
+4.Generate ONE Bin for 9601 with NOR (Dual kernel/rootfs)
+
+./onebin -ft nor -l loader_R4011_9601_demo_dual_boot.img -f uImage 88000 -f rootfs 2cc000 -f uImage 844000 -f rootfs a88000 -o onebin_9601_Dual.img
+
+
+
+5.Generate ONE Bin for 4K page NAND (Dual kernel/rootfs)
+
+./onebin -ft nand -npt large -csz 4096 -l encode_uboot_4Kpage.img -f uImage 1900000 -f rootfs 2100000 -f uImage 3500000 -f rootfs 3d00000 -o onebin.img
+
+
+
+
+
+Program the onebin file by u-boot command
+
+------------------------------------------------------------
+
+1. U-Boot Command (example)
+
+Parallel NAND: tftp 0x80000000 ${filename}; nand erase 0 ${erasesize} ; nand write.raw 0x80000000 0 ${filesize}
+
+SPI NNAD: tftp 0x80000000 ${filename} && crc32 ${fileaddr} ${filesize} && spi_nand erase 0x0 ${erasesize} && spi_nand write.raw ${fileaddr} 0x0 ${filesize}
+
+NOR: tftp 0x80000000 ${filename}; crc32 ${fileaddr} ${filesize}; sf erase 0 +{erasesize}; sf write ${fileaddr} 0 ${filesize}
+
+
+
+Known Bugs and Limitations
+----------------------------------------
+
+* For 9607 nand flash, swap is needed, so bso and bdo should be assigned
+Notice: -bso and -bdo should be defined together, if neither -bso nor -bdo is defined, no swap will be performanced
+
+

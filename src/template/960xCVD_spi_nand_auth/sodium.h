@@ -1,0 +1,1 @@
+platform/lightsodium/sodium.h

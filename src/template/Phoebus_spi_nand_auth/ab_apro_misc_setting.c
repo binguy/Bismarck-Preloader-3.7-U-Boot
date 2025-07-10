@@ -1,0 +1,1 @@
+platform/apro/misc_setting.c

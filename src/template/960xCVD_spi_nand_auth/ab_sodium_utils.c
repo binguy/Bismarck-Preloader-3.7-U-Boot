@@ -1,0 +1,1 @@
+platform/lightsodium/sodium_utils.c

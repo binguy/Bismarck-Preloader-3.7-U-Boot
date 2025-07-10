@@ -1,0 +1,126 @@
+#ifndef __ASSEMBLER__
+    #define OTTO_KSEG2_BASE 0xC0000000
+    #define CACHELINE_SIZE 0x20
+    #define ICACHE_SIZE 0x10000
+    #define DCACHE_SIZE 0x08000
+    #define L2CACHE_SIZE 0
+    #define OTTO_SPI_NOR_START 0x94000000
+    #define OTTO_SRAM_START 0x9f000000
+    #define OTTO_SRAM_SIZE 0x8000
+    #define OTTO_SRAM_MASK (0x8000-1)
+    #define TLB_PAGE_SHIFT 12
+    #define TLB_PAGE_SIZE (1 << 12)
+    #define TLB_PAGE_MASK ((1 << 12) - 1)
+    #define TLB_NUM_TLB_ENTRY 32
+    #define TLB_NUM_TLB_MASK (32 - 1)
+    #define TLB_ENTRYHI_MASK 0xFFFFE000
+    #define OTTO_LPLR_ENTRY 0x9fc00000
+    #define OTTO_LPLR_SIZE 0x8000
+    #define OTTO_LPLR_CHECKSUM_OFFSET 0x1c
+    #define OTTO_SPI_NAND_PLR_ENTRY 0x9f000000
+    #define OTTO_SPI_NOR_PLR_ENTRY 0x9fc00000
+    #define OTTO_HEADER_OFFSET 0x20
+    #define UART_BASE_ADDR 0xb8002000
+    #define MAX_PAGE_BUF_SIZE 4096
+    #define MAX_OOB_BUF_SIZE 256
+    #define MAX_ECC_BUF_SIZE 32
+    #define MAX_BIG_BUFFER_SIZE 4096+256+32
+    #define MAX_BYTE_PER_DMA 0x10000
+    #define MAX_PLR_FIRST_LOAD_PAGE 32
+    #define MAX_PLR_FIRST_LOAD_PAGE_NUM 65536
+    #define MIN_STACK_SIZE 0xC00
+    #define CC_PLAT_FLAGS -mips32r2 -mtune=1004kc
+    #define AS_PLAT_FLAGS -mips32r2 -mtune=1004kc
+    #define OTTO_ISR_ENTRY_OFFSET 0x380
+    #define USE_OTTO_CG_FUNCTION 1
+    #define _lplr_soc_t (*(soc_t*)(OTTO_LPLR_ENTRY+OTTO_HEADER_OFFSET))
+    #define _lplr_bios (_lplr_soc_t.bios)
+    #define _lplr_header (_lplr_bios.header)
+    
+    #define _soc_cid_sct ((_soc.cid>>16)&0xFFFF)
+    #define _soc_cid_series (_soc.cid&0xFFFF)
+    
+    
+    #define PLR_SID_APRO 0x7
+    #define PLR_SID_APRO_GEN2 0x1
+    #define PLR_SID_9603CVD 0x8
+    
+    
+    #define SRAM_CTRL_INIT sram_init: li t0, 0xB8001300; lui t1, %hi(OTTO_SRAM_START); lui t3, 0x1FFF; and t1, t1, t3; ori t1, t1, 0x1; li t3, 0xB8004000; li t2, 9; sw t1, 0(t3); sw t2, 4(t3); lui t3, 0x1FFF; and t1, t1, t3; ori t1, t1, 0x1; sw t1, 0(t0); sw t2, 4(t0);
+    #define GFUNC(symbol) .text; .globl symbol; .align 4; .ent symbol; symbol:
+    
+    
+    
+    
+    
+    
+    
+    #define END(symbol) .end symbol
+    
+    
+    
+    #define SYSTEM_RESET() do { REG32(0xb8003268) = 0; REG32(0xb8003268) = 0x80000000; } while (0)
+#else //__ASSEMBLER__
+    #define OTTO_KSEG2_BASE 0xC0000000
+    #define CACHELINE_SIZE 0x20
+    #define ICACHE_SIZE 0x10000
+    #define DCACHE_SIZE 0x08000
+    #define L2CACHE_SIZE 0
+    #define OTTO_SPI_NOR_START 0x94000000
+    #define OTTO_SRAM_START 0x9f000000
+    #define OTTO_SRAM_SIZE 0x8000
+    #define OTTO_SRAM_MASK (0x8000-1)
+    #define TLB_PAGE_SHIFT 12
+    #define TLB_PAGE_SIZE (1 << 12)
+    #define TLB_PAGE_MASK ((1 << 12) - 1)
+    #define TLB_NUM_TLB_ENTRY 32
+    #define TLB_NUM_TLB_MASK (32 - 1)
+    #define TLB_ENTRYHI_MASK 0xFFFFE000
+    #define OTTO_LPLR_ENTRY 0x9fc00000
+    #define OTTO_LPLR_SIZE 0x8000
+    #define OTTO_LPLR_CHECKSUM_OFFSET 0x1c
+    #define OTTO_SPI_NAND_PLR_ENTRY 0x9f000000
+    #define OTTO_SPI_NOR_PLR_ENTRY 0x9fc00000
+    #define OTTO_HEADER_OFFSET 0x20
+    #define UART_BASE_ADDR 0xb8002000
+    #define MAX_PAGE_BUF_SIZE 4096
+    #define MAX_OOB_BUF_SIZE 256
+    #define MAX_ECC_BUF_SIZE 32
+    #define MAX_BIG_BUFFER_SIZE 4096+256+32
+    #define MAX_BYTE_PER_DMA 0x10000
+    #define MAX_PLR_FIRST_LOAD_PAGE 32
+    #define MAX_PLR_FIRST_LOAD_PAGE_NUM 65536
+    #define MIN_STACK_SIZE 0xC00
+    #define CC_PLAT_FLAGS -mips32r2 -mtune=1004kc
+    #define AS_PLAT_FLAGS -mips32r2 -mtune=1004kc
+    #define OTTO_ISR_ENTRY_OFFSET 0x380
+    #define USE_OTTO_CG_FUNCTION 1
+    #define _lplr_soc_t (*(soc_t*)(OTTO_LPLR_ENTRY+OTTO_HEADER_OFFSET))
+    #define _lplr_bios (_lplr_soc_t.bios)
+    #define _lplr_header (_lplr_bios.header)
+    
+    #define _soc_cid_sct ((_soc.cid>>16)&0xFFFF)
+    #define _soc_cid_series (_soc.cid&0xFFFF)
+    
+    
+    #define PLR_SID_APRO 0x7
+    #define PLR_SID_APRO_GEN2 0x1
+    #define PLR_SID_9603CVD 0x8
+    
+    
+    #define SRAM_CTRL_INIT sram_init: li t0, 0xB8001300; lui t1, %hi(OTTO_SRAM_START); lui t3, 0x1FFF; and t1, t1, t3; ori t1, t1, 0x1; li t3, 0xB8004000; li t2, 9; sw t1, 0(t3); sw t2, 4(t3); lui t3, 0x1FFF; and t1, t1, t3; ori t1, t1, 0x1; sw t1, 0(t0); sw t2, 4(t0);
+    #define GFUNC(symbol) .text; .globl symbol; .align 4; .ent symbol; symbol:
+    
+    
+    
+    
+    
+    
+    
+    #define END(symbol) .end symbol
+    
+    
+    
+    #define SYSTEM_RESET() do { REG32(0xb8003268) = 0; REG32(0xb8003268) = 0x80000000; } while (0)
+#endif //__ASSEMBLER__
+

@@ -1,0 +1,45 @@
+# this is a tempoary file
+# from release/project_name
+project_name := Phoebus_nor_demo
+# from src/template/Phoebus_nor/info.in
+platform_name := Phoebus
+
+OTTO_LMA_BASE := 0x9fc00000
+OTTO_ENTRY := $(OTTO_LMA_BASE)
+
+OTTO_ENTRY_SYMB := plr_S_entry
+OTTO_PLR_STACK_DEF := OTTO_SRAM_START + OTTO_SRAM_SIZE - 8
+MIN_STACK_SIZE := 0xC00
+TARGET_OUT := release/plr.out
+
+EXPORT_SYMB_PROTO_PRINTF := 1
+EXPORT_SYMB_CACHE_OP := 1
+
+ifeq ($(FOR_UBOOT_2020),1)
+AFTER_PRELOADER_IMG := $(CURDIR)/uboot_v2020.01/u-boot.pimg
+else
+AFTER_PRELOADER_IMG := $(CURDIR)/uboot/u-boot.pimg
+endif
+AFTER_PRELOADER_IMGQ := \"$(AFTER_PRELOADER_IMG)\"
+
+SRAM_SIZE_SEG0 := SRAM_256KB
+SRAM_SIZE_SEG1 := SRAM_0KB
+SRAM_SIZE_SEG2 := SRAM_0KB
+SRAM_SIZE_SEG3 := SRAM_0KB
+
+
+## u-boot/Bismarck version info
+FOR_UBOOT_2020 := 1
+
+
+# from project/Phoebus_nor_demo/info.in
+template_name := Phoebus_nor
+name_of_project := \"Phoebus\"
+
+## Assign the compile toolkit
+PREFERRED_TK_PREFIX:=/share/rlx/msdk-4.8.5-1004k-EB-3.18-u0.9.33-m32t-150818/bin/msdk-linux-
+
+## Extended memory use information
+OTTO_FLASH_NOR:= 1
+
+FILTER_OUT_OBJS :=

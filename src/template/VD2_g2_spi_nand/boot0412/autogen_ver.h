@@ -1,0 +1,1 @@
+#define MEMCTL_VERSION "r92780-" VCS_VERS

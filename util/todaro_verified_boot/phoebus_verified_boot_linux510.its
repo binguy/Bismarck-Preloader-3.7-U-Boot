@@ -1,0 +1,54 @@
+/dts-v1/;
+/ {
+    description = "fitImage for RTK Phoebus Kernel";
+    #address-cells = <0x1>;
+    images {
+        kernel@0 {
+            description = "Linux Kernel";
+            data = /incbin/("./kernel_image/vmlinux.bin.lzma");
+            type = "kernel";
+            arch = "MIPS";
+            os = "linux";
+            compression = "lzma";
+            load = <0x80001000>;
+            entry = <0x80921270>;
+            hash@1 {
+                algo = "sha1";
+            };
+            signature@0 {
+                algo = "sha1,rsa2048";
+                key-name-hint = "dev";
+            };
+        };
+        script@0 {
+            description = "Script";
+            data = /incbin/("./kernel_image/uboot_verity_script");
+            type = "script";
+            compression = "none";
+            hash@0 {
+                algo = "sha1";
+            };
+            signature@0 {
+                algo = "sha1,rsa2048";
+                key-name-hint = "dev";
+            };
+        };
+    };
+
+    configurations {
+        default = "conf@1";
+        conf@1 {
+            description = "Boot Linux kernel with FDT blob ";
+            kernel = "kernel@0";
+            script = "script@0";
+            hash@1 {
+                algo = "sha1";
+            };
+            signature@1 {
+                algo = "sha1,rsa2048";
+                key-name-hint = "dev";
+                sign-images = "kernel", "script";
+            };
+        };
+    };
+};

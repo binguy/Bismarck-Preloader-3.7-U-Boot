@@ -1,0 +1,1 @@
+platform/lightsodium/ed25519.c

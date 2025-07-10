@@ -1,0 +1,42 @@
+## PLATFORM
+platform_name := VD2_g2
+OTTO_ENTRY := $(OTTO_SPI_NAND_PLR_ENTRY)
+OTTO_LMA_BASE := 0
+
+## LDS
+#OTTO_LDS := "./src/lds/spi_nand_with_lplr.lds"
+OTTO_LDS := "./src/template/VD2_g2_spi_nand/spi_nand_with_lplr.lds"
+#OTTO_LDS := "./src/lds/standard_nand.lds"
+OTTO_STARTUP := "./src/lib/startup/startup_nand_with_lplr.S"
+
+## MMU Setting
+MMU_PHY_SIZE := $(OTTO_SRAM_SIZE)
+MMU_VM_SIZE := 0x40000
+MMU_PHY_BASE_ADDR := $(OTTO_SRAM_START)
+MMU_CHECK_INETRNAL_ERROR := 1
+
+## gpopt
+USE_CC_GPOPT := 1
+CC_GPOPT := -mgpopt -mlocal-sdata -mextern-sdata -G 4
+
+# Recycle section check
+IS_RECYCLE_SECTION_EXIST :=
+
+## Don't double quote LIBMEMCTL, it makes wildcard returns nothing.
+LIBMEMCTL := ./src/template/VD2_g2_spi_nand/libmemctl.a
+LIBMEMCTL_MEMBERS := ./release/objs/ab_dram_setup.o ./release/objs/ab_boot0412_integration.o
+LIBMEMCTL_MEMBERS += ./release/objs/ab_memctl_8685.o ./release/objs/ab_efuse.o
+ifeq ($(wildcard $(LIBMEMCTL)),$(LIBMEMCTL))
+  TMPL_LIB := -lmemctl
+else
+  TMPL_LIB :=
+endif
+
+ifeq ($(wildcard ./src/template/VD2_g2_spi_nand/boot0412),./src/template/VD2_g2_spi_nand/boot0412)
+  ## Keep that assignment symbol like this, otherwise $(AR) expansion may fail
+  GEN_LIBMEMCTL = echo Generating $(LIBMEMCTL); \
+                  $(AR) rcuv $(LIBMEMCTL) $(LIBMEMCTL_MEMBERS); \
+                  $(OC) -g $(LIBMEMCTL)
+else
+  GEN_LIBMEMCTL := echo Skipping $(LIBMEMCTL) generation
+endif

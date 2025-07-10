@@ -1,0 +1,1 @@
+platform/9603cvd/efuse_setup.c

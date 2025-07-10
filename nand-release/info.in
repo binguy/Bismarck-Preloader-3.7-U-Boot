@@ -1,0 +1,4 @@
+# this file is generated automatcally, don't edit it.
+include src/platform/Phoebus/info.in
+include src/template/Phoebus_spi_nand/info.in
+include project/Phoebus_spi_nand_demo/info.in
